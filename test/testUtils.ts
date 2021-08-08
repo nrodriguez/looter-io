@@ -14,7 +14,8 @@ const Providers = ({ children }) => {
   // )
 }
 
-const customRender = (ui, options = {}) =>
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const customRender = (ui: JSX.Element, options = {}) =>
   render(ui, { wrapper: Providers, ...options })
 
 // re-export everything
