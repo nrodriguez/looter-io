@@ -1,6 +1,10 @@
-// import "blk-design-system-react/src/assets/css/blk-design-system-react.css"
+import '../styles/results.css'
 import type { AppProps } from 'next/app'
 
-export default function LooterIO ({ Component, pageProps }: AppProps): JSX.Element{
+// This default export is required in a new `pages/_app.js` file.
+export default function LooterIO({
+  Component,
+  pageProps,
+}: AppProps): JSX.Element {
   return <Component {...pageProps} />
 }
