@@ -1,7 +1,5 @@
 module.exports = {
-    images: {
-      domains: [
-        'u-mercari-images.mercdn.net'
-      ],
-    },
-  }
+  images: {
+    domains: ['u-mercari-images.mercdn.net'],
+  },
+}
