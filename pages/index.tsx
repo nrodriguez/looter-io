@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { GetServerSideProps } from 'next'
 import { getSortedSearchResults } from '../lib/search'
 import { TransformedItem } from '../lib/marketplace'
+import { AppProps } from 'next/dist/next-server/lib/router/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // eslint-disable-next-line no-console
@@ -19,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default function Home({ searchResults }): JSX.Element {
+export default function Home({ searchResults }: AppProps): JSX.Element {
   return (
     <div className="container">
       <Head>
