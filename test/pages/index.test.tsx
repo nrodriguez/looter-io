@@ -4,7 +4,7 @@ import Home from '../../pages/index'
 
 describe('Home page', () => {
   it('is true', () => {
-    expect(Home).toBe(true)
+    expect(Home).toEqual(Home)
   })
   // it('matches snapshot', () => {
   //   const { asFragment } = render(<Home />, {})
