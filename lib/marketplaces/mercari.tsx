@@ -23,7 +23,7 @@ export class Mercari extends Marketplace {
       url: 'https://mercari.p.rapidapi.com/Mercari/Search',
       params: { page: '1', query: queryParams },
       headers: {
-        'x-rapidapi-key': 'lEvi2CMgUeDRWqaClWeNGByxWI5LZBjL',
+        'x-rapidapi-key': process.env.RAPID_API_KEY,
         'x-rapidapi-host': 'mercari.p.rapidapi.com',
       },
     };
