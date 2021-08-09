@@ -1,20 +1,20 @@
-import { Marketplace, TransformedItem } from '../marketplace'
-import axios from 'axios'
+import { Marketplace, TransformedItem } from '../marketplace';
+import axios from 'axios';
 
 type MercariItem = {
-  name: string
+  name: string;
   photos: [
     {
-      thumbnail: string
+      thumbnail: string;
     }
-  ]
-  price: string
-  originalPrice: string
+  ];
+  price: string;
+  originalPrice: string;
   brand: {
-    name: string
-  }
-  url: string
-}
+    name: string;
+  };
+  url: string;
+};
 
 export class Mercari extends Marketplace {
   async search(queryParams: string): Promise<Array<TransformedItem>> {
@@ -26,16 +26,16 @@ export class Mercari extends Marketplace {
         'x-rapidapi-key': 'lEvi2CMgUeDRWqaClWeNGByxWI5LZBjL',
         'x-rapidapi-host': 'mercari.p.rapidapi.com',
       },
-    }
+    };
 
     try {
-      const resp = await axios.request(options as any)
-      return this.transformData(resp.data)
+      const resp = await axios.request(options as any);
+      return this.transformData(resp.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('Error', error)
+      console.log('Error', error);
       //We hit a rate limiting error or something, just return no results for now
-      return []
+      return [];
     }
   }
 
@@ -49,7 +49,7 @@ export class Mercari extends Marketplace {
         brand: item.brand.name,
         merchant: 'mercari',
         url: '',
-      }
-    })
+      };
+    });
   }
 }

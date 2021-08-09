@@ -1,30 +1,30 @@
-import { Marketplace, TransformedItem } from '../marketplace'
-import eBayApi from '@hendt/ebay-api'
+import { Marketplace, TransformedItem } from '../marketplace';
+import eBayApi from '@hendt/ebay-api';
 
 type EbayPrice = {
-  value: string
-  currency: string
-}
+  value: string;
+  currency: string;
+};
 
 type EbayThumbnailImages = [
   {
-    imageUrl: string
+    imageUrl: string;
   }
-]
+];
 
 type EbayItem = {
-  title: string
-  price: EbayPrice
-  marketingPrice: any
-  thumbnailImages: EbayThumbnailImages
-  itemWebUrl: string
-}
+  title: string;
+  price: EbayPrice;
+  marketingPrice: any;
+  thumbnailImages: EbayThumbnailImages;
+  itemWebUrl: string;
+};
 
 export class EBay extends Marketplace {
-  ebay: eBayApi
+  ebay: eBayApi;
 
   constructor() {
-    super()
+    super();
     this.ebay = new eBayApi({
       appId: process.env.EBAY_APP_ID,
       certId: process.env.EBAY_CERT_ID,
@@ -33,12 +33,12 @@ export class EBay extends Marketplace {
       siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
       marketplaceId: eBayApi.MarketplaceId.EBAY_US,
       devId: process.env.EBAY_DEV_ID, // required for traditional trading API
-    })
+    });
   }
 
   async search(queryParams: string): Promise<Array<TransformedItem>> {
-    const results = await this.ebay.buy.browse.search({ q: queryParams })
-    return this.transformData(results.itemSummaries)
+    const results = await this.ebay.buy.browse.search({ q: queryParams });
+    return this.transformData(results.itemSummaries);
   }
 
   transformData(rawResults: Array<any>): Array<TransformedItem> {
@@ -51,7 +51,7 @@ export class EBay extends Marketplace {
         brand: '',
         merchant: 'ebay',
         url: item.itemWebUrl,
-      }
-    })
+      };
+    });
   }
 }

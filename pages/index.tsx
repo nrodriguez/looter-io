@@ -1,24 +1,24 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { GetServerSideProps } from 'next'
-import { getSortedSearchResults } from '../lib/search'
-import { TransformedItem } from '../lib/marketplace'
-import { AppProps } from 'next/dist/next-server/lib/router/router'
+import Head from 'next/head';
+import Image from 'next/image';
+import { GetServerSideProps } from 'next';
+import { getSortedSearchResults } from '../lib/search';
+import { TransformedItem } from '../lib/marketplace';
+import { AppProps } from 'next/dist/next-server/lib/router/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // eslint-disable-next-line no-console
-  console.log('QUERY', context.query)
+  console.log('QUERY', context.query);
   const searchResults: Array<TransformedItem> = await getSortedSearchResults(
     'thanos funko soda'
-  )
+  );
   // eslint-disable-next-line no-console
-  console.log('Total?', searchResults.length)
+  console.log('Total?', searchResults.length);
   return {
     props: {
       searchResults,
     },
-  }
-}
+  };
+};
 
 export default function Home({ searchResults }: AppProps): JSX.Element {
   return (
@@ -53,5 +53,5 @@ export default function Home({ searchResults }: AppProps): JSX.Element {
         </section>
       </section>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
 // import React from 'react'
 // import { render } from '../testUtils'
-import Home from '../../pages/index'
+import Home from '../../pages/index';
 
 describe('Home page', () => {
   it('is true', () => {
-    expect(Home).toEqual(Home)
-  })
+    expect(Home).toEqual(Home);
+  });
   // it('matches snapshot', () => {
   //   const { asFragment } = render(<Home />, {})
   //   expect(asFragment()).toMatchSnapshot()
@@ -17,4 +17,4 @@ describe('Home page', () => {
   //   fireEvent.click(getByText('Test Button'))
   //   expect(window.alert).toHaveBeenCalledWith('With typescript and Jest')
   // })
-})
+});
