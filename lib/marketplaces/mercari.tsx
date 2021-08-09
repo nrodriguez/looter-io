@@ -2,20 +2,21 @@ import { Marketplace, TransformedItem } from '../marketplace'
 import axios from 'axios'
 
 type MercariItem = {
-  name: ''
+  name: string
   photos: [
     {
-      thumbnail: ''
+      thumbnail: string
     }
   ]
-  price: ''
-  originalPrice: ''
+  price: string
+  originalPrice: string
   brand: {
-    name: ''
+    name: string
   }
+  url: string
 }
 
-export class Mercari implements Marketplace {
+export class Mercari extends Marketplace {
   async search(queryParams: string): Promise<Array<TransformedItem>> {
     const options = {
       method: 'GET',
@@ -38,21 +39,6 @@ export class Mercari implements Marketplace {
     }
   }
 
-  private transformPrice(originalPrice: string) {
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    })
-
-    //Mercari API prices comes back with two extra 00's on them
-    //Remove that first by dividing by 100
-    const fixedPrice = parseInt(originalPrice) / 100
-
-    //Format fixed price to show with proper us currency
-    return formatter.format(fixedPrice)
-  }
-
   transformData(rawResults: Array<any>): Array<TransformedItem> {
     return rawResults.map((item: MercariItem) => {
       return {
@@ -62,6 +48,7 @@ export class Mercari implements Marketplace {
         originalPrice: this.transformPrice(item.originalPrice),
         brand: item.brand.name,
         merchant: 'mercari',
+        url: '',
       }
     })
   }
