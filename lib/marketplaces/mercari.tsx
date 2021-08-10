@@ -1,56 +1,42 @@
-import { Marketplace, TransformedItem } from '../marketplace'
-import axios from 'axios'
+import { Marketplace, TransformedItem } from '../marketplace';
+import axios from 'axios';
 
 type MercariItem = {
-  name: ''
+  name: string;
   photos: [
     {
-      thumbnail: ''
+      thumbnail: string;
     }
-  ]
-  price: ''
-  originalPrice: ''
+  ];
+  price: string;
+  originalPrice: string;
   brand: {
-    name: ''
-  }
-}
+    name: string;
+  };
+  url: string;
+};
 
-export class Mercari implements Marketplace {
+export class Mercari extends Marketplace {
   async search(queryParams: string): Promise<Array<TransformedItem>> {
     const options = {
       method: 'GET',
       url: 'https://mercari.p.rapidapi.com/Mercari/Search',
       params: { page: '1', query: queryParams },
       headers: {
-        'x-rapidapi-key': 'lEvi2CMgUeDRWqaClWeNGByxWI5LZBjL',
+        'x-rapidapi-key': process.env.RAPID_API_KEY,
         'x-rapidapi-host': 'mercari.p.rapidapi.com',
       },
-    }
+    };
 
     try {
-      const resp = await axios.request(options as any)
-      return this.transformData(resp.data)
+      const resp = await axios.request(options as any);
+      return this.transformData(resp.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('Error', error)
+      console.log('Error', error);
       //We hit a rate limiting error or something, just return no results for now
-      return []
+      return [];
     }
-  }
-
-  private transformPrice(originalPrice: string) {
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    })
-
-    //Mercari API prices comes back with two extra 00's on them
-    //Remove that first by dividing by 100
-    const fixedPrice = parseInt(originalPrice) / 100
-
-    //Format fixed price to show with proper us currency
-    return formatter.format(fixedPrice)
   }
 
   transformData(rawResults: Array<any>): Array<TransformedItem> {
@@ -62,7 +48,8 @@ export class Mercari implements Marketplace {
         originalPrice: this.transformPrice(item.originalPrice),
         brand: item.brand.name,
         merchant: 'mercari',
-      }
-    })
+        url: '',
+      };
+    });
   }
 }
