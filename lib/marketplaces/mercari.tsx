@@ -1,5 +1,6 @@
 import { Marketplace, TransformedItem } from '../marketplace';
 import axios from 'axios';
+import axiosThrottle from 'axios-request-throttle';
 
 type MercariItem = {
   name: string;
@@ -29,12 +30,19 @@ export class Mercari extends Marketplace {
     };
 
     try {
+      //Setup the throttle for once a second to avoid rate limit
+      axiosThrottle.use(axios, { requestsPerSecond: 1 });
+
       const resp = await axios.request(options as any);
       return this.transformData(resp.data);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('Error', error);
-      //We hit a rate limiting error or something, just return no results for now
+      console.log('Error', error.response);
+      //We hit a rate limiting error so just silently error
+      if (error.statusText === 'Too Many Requests') {
+        // eslint-disable-next-line no-console
+        console.log('Too many requests');
+      }
       return [];
     }
   }
@@ -48,7 +56,7 @@ export class Mercari extends Marketplace {
         originalPrice: this.transformPrice(item.originalPrice),
         brand: item.brand.name,
         merchant: 'mercari',
-        url: '',
+        url: item.url,
       };
     });
   }
