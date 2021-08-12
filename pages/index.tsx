@@ -33,7 +33,7 @@ export default function Home({ searchResults }: AppProps): JSX.Element {
           <p>{searchResults[0].name}</p>
           <div>
             {searchResults.map((item, index) => (
-              <a key={index} href={item.url}>
+              <a key={index} target="_blank" href={item.url} rel="noreferrer">
                 <div className="item">
                   <div className="photo">
                     <Image
