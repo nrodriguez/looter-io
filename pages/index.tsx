@@ -1,15 +1,18 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { GetServerSideProps } from 'next';
+import { useState } from 'react';
+import Header from '../components/header';
+import Search from '../components/search';
+import Results from '../components/results';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getSortedSearchResults } from '../lib/search';
 import { TransformedItem } from '../lib/marketplace';
-import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { useRouter } from 'next/dist/client/router';
+import { SearchQueryContext } from '../contexts/searchQueryContext';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // eslint-disable-next-line no-console
-  console.log('QUERY', context.query);
-  const searchResults: Array<TransformedItem> = await getSortedSearchResults(
-    'thanos funko soda'
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const searchQuery = query.searchQuery as string;
+  const searchResults: SearchResults = await getSortedSearchResults(
+    searchQuery
   );
   // eslint-disable-next-line no-console
   console.log('Total?', searchResults.length);
@@ -20,38 +23,45 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function Home({ searchResults }: AppProps): JSX.Element {
+type SearchResults = Array<TransformedItem>;
+
+export default function Home({
+  searchResults,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+
+  // Call this function whenever you want to
+  // refresh props!
+  const refreshData = () => {
+    router.replace(
+      {
+        pathname: router.asPath,
+        query: { searchQuery },
+      },
+      `${router.asPath}`
+    );
+  };
+
   return (
-    <div className="container">
-      <Head>
-        <title>LooterIO Search Results</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <section>
-        <h2>Looter.IO - Where the marketplaces meet</h2>
-        <section>
-          <p>{searchResults[0].name}</p>
-          <div>
-            {searchResults.map((item, index) => (
-              <a key={index} target="_blank" href={item.url} rel="noreferrer">
-                <div className="item">
-                  <div className="photo">
-                    <Image
-                      src={item.photoUrl}
-                      layout="fill"
-                      objectFit="contain"
-                    />
-                  </div>
-                  <p>{item.name}</p>
-                  <p>{item.brand}</p>
-                  <p>{item.price}</p>
-                  <p>{item.merchant}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      </section>
-    </div>
+    <SearchQueryContext.Provider value={{ searchQuery }}>
+      <div className="container w-screen h-screen">
+        <Head>
+          <title>LooterIO Search Results</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <div className="justify-center w-screen">
+          <Header />
+          <Search
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            refreshData={refreshData}
+          />
+        </div>
+
+        <Results searchResults={searchResults} />
+      </div>
+    </SearchQueryContext.Provider>
   );
 }

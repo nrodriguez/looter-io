@@ -49,7 +49,7 @@ export class EBay extends Marketplace {
         price: this.transformPrice(item.price.value),
         originalPrice: '', //item.marketingPrice.originalPrice.value,
         brand: '',
-        merchant: 'ebay',
+        merchant: 'EBay',
         url: item.itemWebUrl,
       };
     });
