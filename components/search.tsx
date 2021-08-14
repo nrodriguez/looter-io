@@ -1,60 +1,54 @@
 import { SearchIcon } from '@heroicons/react/outline';
-import { TransformedItem } from '../lib/marketplace';
 
-import { useState } from 'react';
-import { getSortedSearchResults } from '../lib/search';
+type Props = {
+  searchQuery: string;
+  setSearchQuery: (str: string) => void;
+  refreshData: () => void;
+};
 
-function Search(): JSX.Element {
-  const [searchInput, setSearchInput] = useState('');
-  const [results, setResults] = useState([]);
-
-  async function getResults(){
-    // eslint-disable-next-line no-console
-    console.log('QUERY', searchInput);
-    const searchResults: Array<TransformedItem> = await getSortedSearchResults(
-      'thanos'
-    );
-    // eslint-disable-next-line no-console
-    console.log('Total?', searchResults.length);
-    
-    setResults(searchResults);
-  }
-  
+const Search: React.FC<Props> = ({
+  searchQuery,
+  setSearchQuery,
+  refreshData,
+}: Props) => {
   async function handleKeyDown(event) {
-    if(event.key === 'Enter'){
-     setSearchInput(event.target.value);
-     await getResults();
+    if (event.key === 'Enter') {
+      setSearchQuery(event.target.value);
+      refreshData();
     }
   }
-  
-  async function handleClick(event){
-    setSearchInput(event.currentTarget.getAttribute('data-value-search-input'));
-    await getResults();
+
+  async function handleClick(event) {
+    setSearchQuery(event.currentTarget.getAttribute('data-value-search-input'));
+    refreshData();
   }
-  
+
   async function handleChange(event) {
-    setSearchInput(event.target.value);
+    setSearchQuery(event.target.value);
   }
-  
-  console.log(searchInput, results);
+
   return (
-    <div className="flex items-center max-w-xs pl-2 bg-white border-2 rounded-full">
-      <SearchIcon 
-        className='h-8 text-gray-700'
-        data-value-search-input={searchInput} 
+    <div className="flex max-w-xs pl-2 bg-white border-2 rounded-full max-h-10 relativemax-w-xs">
+      <SearchIcon
+        className="h-8 text-gray-700"
+        data-value-search-input={searchQuery}
         onClick={(e) => handleClick(e)}
       />
-      <input 
-        className="px-5 pr-16 text-sm text-gray-700 focus:outline-none"
-        type="text" 
-        name="search" 
+      <input
+        className="px-5 pr-16 text-sm text-gray-700 bg-white focus:outline-none"
+        type="text"
+        name="search"
         placeholder="Search"
-        value={searchInput}
-        onChange={(e) => {handleChange(e);}}
-        onKeyDown={(e) => {handleKeyDown(e);}}
+        value={searchQuery}
+        onChange={(e) => {
+          handleChange(e);
+        }}
+        onKeyDown={(e) => {
+          handleKeyDown(e);
+        }}
       />
     </div>
   );
-}
+};
 
 export default Search;

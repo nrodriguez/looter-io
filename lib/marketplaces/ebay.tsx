@@ -37,7 +37,6 @@ export class EBay extends Marketplace {
   }
 
   async search(queryParams: string): Promise<Array<TransformedItem>> {
-    console.log(this.ebay);
     const results = await this.ebay.buy.browse.search({ q: queryParams });
     return this.transformData(results.itemSummaries);
   }
@@ -50,7 +49,7 @@ export class EBay extends Marketplace {
         price: this.transformPrice(item.price.value),
         originalPrice: '', //item.marketingPrice.originalPrice.value,
         brand: '',
-        merchant: 'ebay',
+        merchant: 'EBay',
         url: item.itemWebUrl,
       };
     });

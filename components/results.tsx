@@ -1,29 +1,25 @@
-import { TransformedItem } from "../lib/marketplace";
 import Image from 'next/image';
+import { TransformedItem } from '../lib/marketplace';
+import MerchantBadge from './merchantBadge';
 
-function EmptyResults(){
+function EmptyResults(): JSX.Element {
   return <section>No Results</section>;
 }
 
-function HydratedResults(searchResults){
+function HydratedResults({ searchResults }): JSX.Element {
   return (
     <section>
-      <p>{searchResults[0].name}</p>
-      <div>
-        {searchResults.map((item, index) => (
+      <div className="w-screen m-10">
+        {searchResults.map((item: TransformedItem, index) => (
           <a key={index} target="_blank" href={item.url} rel="noreferrer">
             <div className="item">
               <div className="photo">
-                <Image
-                  src={item.photoUrl}
-                  layout="fill"
-                  objectFit="contain"
-                />
+                <Image src={item.photoUrl} layout="fill" objectFit="contain" />
               </div>
               <p>{item.name}</p>
               <p>{item.brand}</p>
               <p>{item.price}</p>
-              <p>{item.merchant}</p>
+              <MerchantBadge merchant={item.merchant} />
             </div>
           </a>
         ))}
@@ -32,13 +28,13 @@ function HydratedResults(searchResults){
   );
 }
 
-function Results(searchResults: Array<TransformedItem>): JSX.Element {
-  console.log("RESL", searchResults);
-  if(searchResults.length > 0){
-    return <HydratedResults />;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const Results = ({ searchResults }): JSX.Element => {
+  if (searchResults.length > 0) {
+    return <HydratedResults searchResults={searchResults} />;
   }
 
-  return <EmptyResults />; 
-}
+  return <EmptyResults />;
+};
 
 export default Results;

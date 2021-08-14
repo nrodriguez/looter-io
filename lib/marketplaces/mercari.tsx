@@ -55,7 +55,7 @@ export class Mercari extends Marketplace {
         price: this.transformPrice(item.price),
         originalPrice: this.transformPrice(item.originalPrice),
         brand: item.brand.name,
-        merchant: 'mercari',
+        merchant: 'Mercari',
         url: item.url,
       };
     });

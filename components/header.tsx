@@ -1,14 +1,11 @@
 import Image from 'next/image';
 import logo from '../public/logo.png';
 
-const Header = (): any => {
+const Header = (): JSX.Element => {
   return (
-    <header className=''>
-      <Image 
-        className='object-contain bg-center'
-        src={logo}
-      />
-    </header>
+    <div className="text-center">
+      <Image className="rounded-lg" src={logo} />
+    </div>
   );
 };
 
