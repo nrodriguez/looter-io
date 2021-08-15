@@ -45,7 +45,7 @@ export default function Home({
 
   return (
     <SearchQueryContext.Provider value={{ searchQuery }}>
-      <div className="container w-screen h-screen">
+      <div className="container h-screen">
         <Head>
           <title>LooterIO Search Results</title>
           <link rel="icon" href="/favicon.ico" />
