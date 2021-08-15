@@ -1,8 +1,6 @@
-.item {
+.item-container {
   height: 350px;
   width: 200px;
-  float: left;
-  margin: 10px 10px;
 }
 
 .item .photo {

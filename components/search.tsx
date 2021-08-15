@@ -28,7 +28,7 @@ const Search: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex max-w-xs pl-2 bg-white border-2 rounded-full max-h-10 relativemax-w-xs">
+    <div className="flex max-w-xs pl-2 bg-white border-2 rounded-full max-h-10">
       <SearchIcon
         className="h-8 text-gray-700"
         data-value-search-input={searchQuery}
