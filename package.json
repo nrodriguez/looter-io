@@ -26,6 +26,7 @@
   "dependencies": {
     "@hendt/ebay-api": "^3.3.0",
     "@heroicons/react": "^1.0.3",
+    "amazon-paapi": "^1.0.5",
     "axios": "^0.21.1",
     "axios-request-throttle": "^1.0.0",
     "blk-design-system-react": "^1.2.0",

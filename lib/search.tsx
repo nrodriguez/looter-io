@@ -1,5 +1,6 @@
 import { EBay } from './marketplaces/ebay';
 import { Mercari } from './marketplaces/mercari';
+import { Amazon } from './marketplaces/amazon';
 import currency from 'currency.js';
 
 export async function getSortedSearchResults(
@@ -12,7 +13,14 @@ export async function getSortedSearchResults(
     const ebay = new EBay();
     const ebayResults = await ebay.search(searchQuery);
 
-    const combinedResults = [...mercariResults, ...ebayResults];
+    const amazon = new Amazon();
+    const amazonResults = await amazon.search(searchQuery);
+
+    const combinedResults = [
+      ...mercariResults, 
+      ...ebayResults,
+      ...amazonResults
+    ];
 
     //We're gonna sort the results by price for now. Low to High
     const sortedResults = combinedResults.sort(
