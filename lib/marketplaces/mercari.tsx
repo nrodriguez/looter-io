@@ -1,6 +1,7 @@
 import { Marketplace, TransformedItem } from '../marketplace';
 import axios from 'axios';
 import axiosThrottle from 'axios-request-throttle';
+import { SearchParams } from '../search';
 
 type MercariItem = {
   name: string;
@@ -18,11 +19,11 @@ type MercariItem = {
 };
 
 export class Mercari extends Marketplace {
-  async search(queryParams: string): Promise<Array<TransformedItem>> {
+  async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
     const options = {
       method: 'GET',
       url: 'https://mercari.p.rapidapi.com/Mercari/Search',
-      params: { page: '1', query: queryParams },
+      params: { page: Number(searchParams.page), query: searchParams.searchQuery },
       headers: {
         'x-rapidapi-key': process.env.RAPID_API_KEY,
         'x-rapidapi-host': 'mercari.p.rapidapi.com',
@@ -34,6 +35,7 @@ export class Mercari extends Marketplace {
       axiosThrottle.use(axios, { requestsPerSecond: 1 });
 
       const resp = await axios.request(options as any);
+      
       return this.transformData(resp.data);
     } catch (error) {
       // eslint-disable-next-line no-console

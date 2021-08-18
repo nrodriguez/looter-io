@@ -1,5 +1,6 @@
 import { Marketplace, TransformedItem } from '../marketplace';
 import eBayApi from '@hendt/ebay-api';
+import { SearchParams } from '../search';
 
 type EbayPrice = {
   value: string;
@@ -36,8 +37,10 @@ export class EBay extends Marketplace {
     });
   }
 
-  async search(queryParams: string): Promise<Array<TransformedItem>> {
-    const results = await this.ebay.buy.browse.search({ q: queryParams });
+  async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
+    //TODO: Add in offset logic
+    console.log("EBAY Q", searchParams.searchQuery, searchParams.page);
+    const results = await this.ebay.buy.browse.search({ q: searchParams.searchQuery });
     return this.transformData(results.itemSummaries);
   }
 

@@ -7,13 +7,13 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getSortedSearchResults } from '../lib/search';
 import { TransformedItem } from '../lib/marketplace';
 import { useRouter } from 'next/dist/client/router';
-import { SearchQueryContext } from '../contexts/searchQueryContext';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const searchQuery = query.searchQuery as string;
-  const searchResults: SearchResults = await getSortedSearchResults(
-    searchQuery
-  );
+  const searchResults: SearchResults = await getSortedSearchResults({
+    searchQuery,
+    page: 1
+  });
   // eslint-disable-next-line no-console
   console.log('Total?', searchResults.length);
   return {
@@ -44,24 +44,25 @@ export default function Home({
   };
 
   return (
-    <SearchQueryContext.Provider value={{ searchQuery }}>
-      <div className="container h-screen">
-        <Head>
-          <title>LooterIO Search Results</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+    <div className="container h-screen">
+      <Head>
+        <title>LooterIO Search Results</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <div className="justify-center w-screen">
-          <Header />
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            refreshData={refreshData}
-          />
-        </div>
-
-        <Results searchResults={searchResults} />
+      <div className="justify-center w-screen">
+        <Header />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          refreshData={refreshData}
+        />
       </div>
-    </SearchQueryContext.Provider>
+
+      <Results 
+        searchResults={searchResults} 
+        searchQuery={searchQuery}
+      />
+    </div>
   );
 }
