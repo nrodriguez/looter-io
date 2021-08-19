@@ -39,7 +39,6 @@ export class EBay extends Marketplace {
 
   async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
     //TODO: Add in offset logic
-    console.log("EBAY Q", searchParams.searchQuery, searchParams.page);
     const results = await this.ebay.buy.browse.search({ q: searchParams.searchQuery });
     return this.transformData(results.itemSummaries);
   }

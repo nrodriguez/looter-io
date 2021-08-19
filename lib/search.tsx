@@ -8,7 +8,6 @@ export type SearchParams = {
 };
 
 export async function getSortedSearchResults(searchParams: SearchParams): Promise<any> {
-  console.log("SEARCHPARAMS", searchParams, process.env.EBAY_APP_ID);
   if (searchParams.searchQuery) {
     // const mercari = new Mercari();
     const mercariResults = [];//await mercari.search(searchParams);
