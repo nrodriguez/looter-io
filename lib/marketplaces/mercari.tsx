@@ -48,16 +48,18 @@ export class Mercari extends Marketplace {
   }
 
   transformData(rawResults: Array<any>): Array<TransformedItem> {
-    return rawResults.map((item: MercariItem) => {
-      return {
-        name: item.name,
-        photoUrl: item.photos[0].thumbnail, //.split("?")[0],
-        price: this.transformPrice(item.price),
-        originalPrice: this.transformPrice(item.originalPrice),
-        brand: item.brand.name,
-        merchant: 'Mercari',
-        url: item.url,
-      };
-    });
+    return rawResults
+      .filter((item) => item.status === 'on_sale')
+      .map((item: MercariItem) => {
+        return {
+          name: item.name,
+          photoUrl: item.photos[0].thumbnail, //.split("?")[0],
+          price: this.transformPrice(item.price),
+          originalPrice: this.transformPrice(item.originalPrice),
+          brand: item.brand.name,
+          merchant: 'Mercari',
+          url: item.url,
+        };
+      });
   }
 }
