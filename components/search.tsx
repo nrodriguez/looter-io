@@ -6,7 +6,7 @@ type Props = {
   refreshData: () => void;
 };
 
-const Search: React.FC<Props> = ({
+const SearchBar: React.FC<Props> = ({
   searchQuery,
   setSearchQuery,
   refreshData,
@@ -51,4 +51,4 @@ const Search: React.FC<Props> = ({
   );
 };
 
-export default Search;
+export default SearchBar;

@@ -1,6 +1,6 @@
 import { Marketplace, TransformedItem } from '../marketplace';
 import eBayApi from '@hendt/ebay-api';
-import { SearchParams } from '../search';
+import { LimitOffset, SearchParams } from '../search';
 
 type EbayPrice = {
   value: string;
@@ -23,8 +23,10 @@ type EbayItem = {
 
 export class EBay extends Marketplace {
   ebay: eBayApi;
+  offset: number;
+  limit: number;
 
-  constructor() {
+  constructor({offset, limit}: LimitOffset) {
     super();
     this.ebay = new eBayApi({
       appId: process.env.EBAY_APP_ID,
@@ -35,11 +37,19 @@ export class EBay extends Marketplace {
       marketplaceId: eBayApi.MarketplaceId.EBAY_US,
       devId: process.env.EBAY_DEV_ID, // required for traditional trading API
     });
+
+    this.offset = offset;
+    this.limit = limit;
   }
 
   async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
-    //TODO: Add in offset logic
-    const results = await this.ebay.buy.browse.search({ q: searchParams.searchQuery });
+    console.log("EBAY LIMIT: ", this.limit, 'EBAY OFFSET', this.offset);
+    const results = await this.ebay.buy.browse.search({ 
+      q: searchParams.searchQuery,
+      limit: this.limit,
+      offset: this.offset
+    });
+
     return this.transformData(results.itemSummaries);
   }
 
