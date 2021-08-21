@@ -4,24 +4,26 @@ import Header from '../components/header';
 import SearchBar from '../components/search';
 import Results from '../components/results';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { Search } from '../lib/search';
+import { defaultLimit, getSortedSearchResults } from '../lib/search';
 import { TransformedItem } from '../lib/marketplace';
 import { useRouter } from 'next/dist/client/router';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const searchQuery = query.searchQuery as string;
-
-  const search = new Search({offset: 0});
-  const searchResults: SearchResults = await search.getSortedSearchResults({
+  
+  const searchResults: SearchResults = await getSortedSearchResults({
     searchQuery,
-    page: 1
+    page: 1,
+    offset: 0,
+    limit: defaultLimit()
   });
+
+  console.log(searchResults[0]);
   // eslint-disable-next-line no-console
   console.log('Total?', searchResults.length);
   return {
     props: {
-      searchResults,
-      search
+      searchResults
     },
   };
 };
@@ -35,6 +37,7 @@ function Home({ searchResults }: InferGetServerSidePropsType<typeof getServerSid
   // Call this function whenever you want to
   // refresh props!
   const refreshData = () => {
+    console.log("REFRESH", router.asPath, searchQuery);
     router.replace(
       {
         pathname: router.asPath,

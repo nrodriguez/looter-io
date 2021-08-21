@@ -2,7 +2,22 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { TransformedItem } from '../lib/marketplace';
+import { defaultLimit } from '../lib/search';
 import MerchantBadge from './merchantBadge';
+
+function calculateOffset(page: number, offset: number, limit: number): number {
+  let newOffset: number;
+  
+  console.log('OG OFF', offset);
+  if(Number(page) === 1){
+    newOffset = 0;
+  } else {
+    newOffset = offset + limit;
+  }
+  console.log('NEW OFF', newOffset);
+  return newOffset;
+}
+
 
 function EmptyResults(): JSX.Element {
   return <section>No Results</section>;
@@ -10,18 +25,23 @@ function EmptyResults(): JSX.Element {
 
 function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
   const [searchResults, setSearchResults] = useState(initialSearchResults);
-  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [offset, setOffset]= useState(0);
+  
+  const limit = defaultLimit(); //Hardcoded here till I can find a better place
   
   const getMoreResults = async () => {
-    console.log("API CALL");
-    setPage(page+1);
-    const res = await fetch(`/api/search-results?searchQuery=${searchQuery}&page=${page}`);
+    const newPage = page + 1;
+    const newOffset = calculateOffset(newPage, offset, limit);
+    setPage(newPage);
+    setOffset(newOffset);
+    
+    const res = await fetch(`/api/search-results?searchQuery=${searchQuery}&page=${newPage}&offset=${newOffset}&limit=${limit}`);
     const newSearchResults = await res.json();
   
-    console.log("GET MORE RESULTS", newSearchResults.length, page);
+    console.log("GET MORE RESULTS", newSearchResults.length);
     
-    console.log(searchResults[0], newSearchResults[0]);
+    console.log(searchResults[0].name, '<<<<<<<<', newSearchResults[0].name);
     setSearchResults((searchResults) => [...searchResults, ...newSearchResults]);
   };
   
@@ -65,7 +85,7 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Results = ({ searchResults, searchQuery }): JSX.Element => {
+const Results = ({ searchResults, searchQuery}): JSX.Element => {
   if (searchResults.length > 0) {
     return <HydratedResults 
       initialSearchResults={searchResults} 
