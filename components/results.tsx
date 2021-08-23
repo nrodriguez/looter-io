@@ -47,7 +47,7 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
   if (initialSearchResults[0] !== searchResults[0]) {
     //Reset the values for a new search
     setSearchResults(initialSearchResults);
-    setPage(0);
+    setPage(1);
     setOffset(calculateOffset(1, 0, defaultLimit()));
   }
 

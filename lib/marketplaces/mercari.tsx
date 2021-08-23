@@ -23,7 +23,10 @@ export class Mercari extends Marketplace {
     const options = {
       method: 'GET',
       url: 'https://mercari.p.rapidapi.com/Mercari/Search',
-      params: { page: Number(searchParams.page), query: searchParams.searchQuery },
+      params: {
+        page: Number(searchParams.page),
+        query: searchParams.searchQuery,
+      },
       headers: {
         'x-rapidapi-key': process.env.RAPID_API_KEY,
         'x-rapidapi-host': 'mercari.p.rapidapi.com',
@@ -35,7 +38,7 @@ export class Mercari extends Marketplace {
       axiosThrottle.use(axios, { requestsPerSecond: 1 });
 
       const resp = await axios.request(options as any);
-      
+
       return this.transformData(resp.data);
     } catch (error) {
       // eslint-disable-next-line no-console
