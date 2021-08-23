@@ -2,9 +2,14 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { TransformedItem } from '../../lib/marketplace';
 import { getSortedSearchResults, SearchParams } from '../../lib/search';
 
-async function getSearchResults(searchQuery, pageNumber, offset, limit): Promise<Array<TransformedItem>> {
+async function getSearchResults(
+  searchQuery,
+  pageNumber,
+  offset,
+  limit
+): Promise<Array<TransformedItem>> {
   //Set the initial page number
-  if(pageNumber === undefined){
+  if (pageNumber === undefined) {
     pageNumber = 1;
   }
 
@@ -12,18 +17,20 @@ async function getSearchResults(searchQuery, pageNumber, offset, limit): Promise
     searchQuery,
     page: Number(pageNumber),
     offset: Number(offset),
-    limit: Number(limit)
+    limit: Number(limit),
   };
-  console.log("QUERY OFFSET", offset);
-  const searchResults: Array<TransformedItem> = await getSortedSearchResults(searchParams);
-  
-  // eslint-disable-next-line no-console
-  console.log('Total?', searchResults.length);
+  const searchResults: Array<TransformedItem> = await getSortedSearchResults(
+    searchParams
+  );
+
   return searchResults;
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-  const {searchQuery, page, offset, limit } = req.query;
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  const { searchQuery, page, offset, limit } = req.query;
   const results = await getSearchResults(searchQuery, page, offset, limit);
 
   res.status(200).json(results);

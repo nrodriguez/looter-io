@@ -7,17 +7,14 @@ import MerchantBadge from './merchantBadge';
 
 function calculateOffset(page: number, offset: number, limit: number): number {
   let newOffset: number;
-  
-  console.log('OG OFF', offset);
-  if(Number(page) === 1){
+
+  if (Number(page) === 1) {
     newOffset = 0;
   } else {
     newOffset = offset + limit;
   }
-  console.log('NEW OFF', newOffset);
   return newOffset;
 }
-
 
 function EmptyResults(): JSX.Element {
   return <section>No Results</section>;
@@ -26,32 +23,34 @@ function EmptyResults(): JSX.Element {
 function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
   const [searchResults, setSearchResults] = useState(initialSearchResults);
   const [page, setPage] = useState(1);
-  const [offset, setOffset]= useState(0);
-  
+  const [offset, setOffset] = useState(0);
+
   const limit = defaultLimit(); //Hardcoded here till I can find a better place
-  
+
   const getMoreResults = async () => {
     const newPage = page + 1;
     const newOffset = calculateOffset(newPage, offset, limit);
     setPage(newPage);
     setOffset(newOffset);
-    
-    const res = await fetch(`/api/search-results?searchQuery=${searchQuery}&page=${newPage}&offset=${newOffset}&limit=${limit}`);
+
+    const res = await fetch(
+      `/api/search-results?searchQuery=${searchQuery}&page=${newPage}&offset=${newOffset}&limit=${limit}`
+    );
     const newSearchResults = await res.json();
-  
-    console.log("GET MORE RESULTS", newSearchResults.length);
-    
-    console.log(searchResults[0].name, '<<<<<<<<', newSearchResults[0].name);
-    setSearchResults((searchResults) => [...searchResults, ...newSearchResults]);
+
+    setSearchResults((searchResults) => [
+      ...searchResults,
+      ...newSearchResults,
+    ]);
   };
 
-  if(initialSearchResults[0] !== searchResults[0]){
+  if (initialSearchResults[0] !== searchResults[0]) {
     //Reset the values for a new search
     setSearchResults(initialSearchResults);
     setPage(0);
     setOffset(calculateOffset(1, 0, defaultLimit()));
   }
-  
+
   return (
     <section className="flex justify-center mt-10 md:ml-10">
       <InfiniteScroll
@@ -92,13 +91,14 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Results = ({ searchResults, searchQuery}): JSX.Element => {
-  console.log('SeARCHG', 'RESUL1:',  searchResults[0] || '', 'QUERY:', searchQuery);
+const Results = ({ searchResults, searchQuery }): JSX.Element => {
   if (searchResults.length > 0) {
-    return <HydratedResults 
-      initialSearchResults={searchResults} 
-      searchQuery={searchQuery}
-    />;
+    return (
+      <HydratedResults
+        initialSearchResults={searchResults}
+        searchQuery={searchQuery}
+      />
+    );
   }
 
   return <EmptyResults />;

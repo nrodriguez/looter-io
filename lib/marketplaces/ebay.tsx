@@ -40,11 +40,10 @@ export class EBay extends Marketplace {
   }
 
   async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
-    console.log("EBAY LIMIT: ", searchParams.limit, 'EBAY OFFSET', searchParams.offset);
-    const results = await this.ebay.buy.browse.search({ 
+    const results = await this.ebay.buy.browse.search({
       q: searchParams.searchQuery,
       limit: searchParams.limit,
-      offset: searchParams.offset
+      offset: searchParams.offset,
     });
 
     return this.transformData(results.itemSummaries);

@@ -11,34 +11,32 @@ import GoTop from '../components/go-top';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const searchQuery = query.searchQuery as string;
-  
+
   const searchResults: SearchResults = await getSortedSearchResults({
     searchQuery,
     page: 1,
     offset: 0,
-    limit: defaultLimit()
+    limit: defaultLimit(),
   });
 
-  console.log(searchResults[0]);
-  // eslint-disable-next-line no-console
-  console.log('Total?', searchResults.length);
   return {
     props: {
-      searchResults
+      searchResults,
     },
   };
 };
 
 type SearchResults = Array<TransformedItem>;
 
-function Home({ searchResults }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+function Home({
+  searchResults,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   // Call this function whenever you want to
   // refresh props!
   const refreshData = () => {
-    console.log("REFRESH", router.asPath, searchQuery);
     router.replace(
       {
         pathname: router.asPath,
@@ -64,10 +62,7 @@ function Home({ searchResults }: InferGetServerSidePropsType<typeof getServerSid
         />
       </div>
 
-      <Results 
-        searchResults={searchResults} 
-        searchQuery={searchQuery}
-      />
+      <Results searchResults={searchResults} searchQuery={searchQuery} />
 
       <GoTop />
     </div>

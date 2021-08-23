@@ -3,28 +3,27 @@ import { Mercari } from './marketplaces/mercari';
 import currency from 'currency.js';
 
 export type SearchParams = {
-  searchQuery: string,
-  page: number,
-  limit: number,
-  offset: number
+  searchQuery: string;
+  page: number;
+  limit: number;
+  offset: number;
 };
 
 export type Offset = {
-  offset: number
+  offset: number;
 };
 
 export function defaultLimit(): number {
   return 50;
 }
 
-export async function getSortedSearchResults(searchParams: SearchParams): Promise<any> {
+export async function getSortedSearchResults(
+  searchParams: SearchParams
+): Promise<any> {
   if (searchParams.searchQuery) {
-    console.log(searchParams);
-   
     const mercari = new Mercari();
     const mercariResults = await mercari.search(searchParams);
 
-    
     const ebay = new EBay();
     const ebayResults = await ebay.search(searchParams);
 
@@ -40,5 +39,3 @@ export async function getSortedSearchResults(searchParams: SearchParams): Promis
 
   return [];
 }
-
-
