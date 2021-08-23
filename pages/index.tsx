@@ -7,6 +7,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { defaultLimit, getSortedSearchResults } from '../lib/search';
 import { TransformedItem } from '../lib/marketplace';
 import { useRouter } from 'next/dist/client/router';
+import GoTop from '../components/go-top';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const searchQuery = query.searchQuery as string;
@@ -67,6 +68,8 @@ function Home({ searchResults }: InferGetServerSidePropsType<typeof getServerSid
         searchResults={searchResults} 
         searchQuery={searchQuery}
       />
+
+      <GoTop />
     </div>
   );
 }

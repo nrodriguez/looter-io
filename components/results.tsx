@@ -53,7 +53,7 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
   }
   
   return (
-    <section className="flex justify-center mt-10">
+    <section className="flex justify-center mt-10 md:ml-10">
       <InfiniteScroll
         dataLength={searchResults.length}
         next={getMoreResults}
@@ -61,7 +61,7 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
         loader={<h4> Loading...</h4>}
         endMessage={<h4>Nothing more to show</h4>}
       >
-        <div className="grid grid-cols-5 gap-20">
+        <div className="grid grid-cols-2 gap-10 text-center text sm:gap-20 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {searchResults.map((item: TransformedItem, index) => (
             <a
               key={index}
