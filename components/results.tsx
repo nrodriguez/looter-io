@@ -44,6 +44,13 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
     console.log(searchResults[0].name, '<<<<<<<<', newSearchResults[0].name);
     setSearchResults((searchResults) => [...searchResults, ...newSearchResults]);
   };
+
+  if(initialSearchResults[0] !== searchResults[0]){
+    //Reset the values for a new search
+    setSearchResults(initialSearchResults);
+    setPage(0);
+    setOffset(calculateOffset(1, 0, defaultLimit()));
+  }
   
   return (
     <section className="flex justify-center mt-10">
@@ -86,6 +93,7 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Results = ({ searchResults, searchQuery}): JSX.Element => {
+  console.log('SeARCHG', 'RESUL1:',  searchResults[0] || '', 'QUERY:', searchQuery);
   if (searchResults.length > 0) {
     return <HydratedResults 
       initialSearchResults={searchResults} 
