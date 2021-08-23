@@ -2,15 +2,30 @@ import { EBay } from './marketplaces/ebay';
 import { Mercari } from './marketplaces/mercari';
 import currency from 'currency.js';
 
+export type SearchParams = {
+  searchQuery: string;
+  page: number;
+  limit: number;
+  offset: number;
+};
+
+export type Offset = {
+  offset: number;
+};
+
+export function defaultLimit(): number {
+  return 50;
+}
+
 export async function getSortedSearchResults(
-  searchQuery: string
+  searchParams: SearchParams
 ): Promise<any> {
-  if (searchQuery) {
+  if (searchParams.searchQuery) {
     const mercari = new Mercari();
-    const mercariResults = await mercari.search(searchQuery);
+    const mercariResults = await mercari.search(searchParams);
 
     const ebay = new EBay();
-    const ebayResults = await ebay.search(searchQuery);
+    const ebayResults = await ebay.search(searchParams);
 
     const combinedResults = [...mercariResults, ...ebayResults];
 

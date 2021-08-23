@@ -1,5 +1,6 @@
 import { Marketplace, TransformedItem } from '../marketplace';
 import eBayApi from '@hendt/ebay-api';
+import { SearchParams } from '../search';
 
 type EbayPrice = {
   value: string;
@@ -22,6 +23,8 @@ type EbayItem = {
 
 export class EBay extends Marketplace {
   ebay: eBayApi;
+  offset: number;
+  limit: number;
 
   constructor() {
     super();
@@ -36,8 +39,13 @@ export class EBay extends Marketplace {
     });
   }
 
-  async search(queryParams: string): Promise<Array<TransformedItem>> {
-    const results = await this.ebay.buy.browse.search({ q: queryParams });
+  async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
+    const results = await this.ebay.buy.browse.search({
+      q: searchParams.searchQuery,
+      limit: searchParams.limit,
+      offset: searchParams.offset,
+    });
+
     return this.transformData(results.itemSummaries);
   }
 

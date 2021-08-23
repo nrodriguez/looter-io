@@ -1,0 +1,23 @@
+/* Courtesy https://techsolutionshere.com/how-to-create-a-react-scroll-to-top-button/ */
+.back-to-top .top {
+  position: fixed;
+  cursor: pointer;
+  bottom: 15px;
+  right: 15px;
+  font-size: 25px;
+  color: #ffffff;
+  background-color: #000000;
+  z-index: 4;
+  width: 45px;
+  text-align: center;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 50%;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.back-to-top .top:hover {
+  color: #000000;
+  background: #87cfce;
+}

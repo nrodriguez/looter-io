@@ -1,21 +1,24 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/header';
-import Search from '../components/search';
+import SearchBar from '../components/search';
 import Results from '../components/results';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { getSortedSearchResults } from '../lib/search';
+import { defaultLimit, getSortedSearchResults } from '../lib/search';
 import { TransformedItem } from '../lib/marketplace';
 import { useRouter } from 'next/dist/client/router';
-import { SearchQueryContext } from '../contexts/searchQueryContext';
+import GoTop from '../components/go-top';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const searchQuery = query.searchQuery as string;
-  const searchResults: SearchResults = await getSortedSearchResults(
-    searchQuery
-  );
-  // eslint-disable-next-line no-console
-  console.log('Total?', searchResults.length);
+
+  const searchResults: SearchResults = await getSortedSearchResults({
+    searchQuery,
+    page: 1,
+    offset: 0,
+    limit: defaultLimit(),
+  });
+
   return {
     props: {
       searchResults,
@@ -25,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
 type SearchResults = Array<TransformedItem>;
 
-export default function Home({
+function Home({
   searchResults,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,24 +47,26 @@ export default function Home({
   };
 
   return (
-    <SearchQueryContext.Provider value={{ searchQuery }}>
-      <div className="container h-screen">
-        <Head>
-          <title>LooterIO Search Results</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+    <div className="container h-screen">
+      <Head>
+        <title>LooterIO Search Results</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <div className="justify-center w-screen">
-          <Header />
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            refreshData={refreshData}
-          />
-        </div>
-
-        <Results searchResults={searchResults} />
+      <div className="justify-center w-screen">
+        <Header />
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          refreshData={refreshData}
+        />
       </div>
-    </SearchQueryContext.Provider>
+
+      <Results searchResults={searchResults} searchQuery={searchQuery} />
+
+      <GoTop />
+    </div>
   );
 }
+
+export default Home;
