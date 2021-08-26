@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "next dev -H ::",
     "dev:debug:ebay": "DEBUG=ebay:* dev ",
+    "dev:headless": "xvfb-run --auto-servernum yarn dev",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
@@ -29,8 +30,10 @@
     "axios": "^0.21.1",
     "axios-request-throttle": "^1.0.0",
     "blk-design-system-react": "^1.2.0",
+    "cheerio": "^1.0.0-rc.10",
     "currency.js": "^2.0.4",
     "next": "latest",
+    "puppeteer": "^10.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-infinite-scroll-component": "^6.1.0",

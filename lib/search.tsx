@@ -1,6 +1,7 @@
 import { EBay } from './marketplaces/ebay';
 import { Mercari } from './marketplaces/mercari';
 import currency from 'currency.js';
+import { Poshmark } from './marketplaces/poshmark';
 
 export type SearchParams = {
   searchQuery: string;
@@ -21,14 +22,18 @@ export async function getSortedSearchResults(
   searchParams: SearchParams
 ): Promise<any> {
   if (searchParams.searchQuery) {
-    const mercari = new Mercari();
-    const mercariResults = await mercari.search(searchParams);
+    // const mercari = new Mercari();
+    // const mercariResults = await mercari.search(searchParams);
 
-    const ebay = new EBay();
-    const ebayResults = await ebay.search(searchParams);
+    // const ebay = new EBay();
+    // const ebayResults = await ebay.search(searchParams);
 
-    const combinedResults = [...mercariResults, ...ebayResults];
-
+    
+    const poshmark = new Poshmark();
+    const poshmarkResults = await poshmark.search(searchParams);
+    
+    const combinedResults = [...poshmarkResults];//...mercariResults, ...ebayResults];
+    
     //We're gonna sort the results by price for now. Low to High
     const sortedResults = combinedResults.sort(
       (a, b) => currency(a.price).value - currency(b.price).value
