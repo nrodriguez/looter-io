@@ -10,7 +10,7 @@ export default async (
   res: NextApiResponse
 ): Promise<void> => {
   const { marketplace } = req.query as MarketplaceType;
-  const scrapedResults = scraper(marketplace);
+  const scrapedResults = await scraper(marketplace);
 
   res.status(200).json(scrapedResults);
 };
