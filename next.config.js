@@ -1,9 +1,9 @@
 module.exports = {
   images: {
     domains: [
-      'u-mercari-images.mercdn.net', 
+      'u-mercari-images.mercdn.net',
       'i.ebayimg.com',
-      'di2ponv0v5otw.cloudfront.net'
+      'di2ponv0v5otw.cloudfront.net',
     ],
   },
   async headers() {

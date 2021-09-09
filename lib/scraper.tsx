@@ -2,7 +2,7 @@ import { Page } from 'puppeteer';
 import { SearchParams } from './search';
 
 export type scrapedResult = {
-  marketplace: string
+  marketplace: string;
 };
 
 export abstract class Scraper {
@@ -15,4 +15,3 @@ export abstract class Scraper {
 
   abstract search(page: Page, searchParams: SearchParams): Promise<Array<any>>;
 }
-
