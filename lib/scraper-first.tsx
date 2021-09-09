@@ -32,7 +32,7 @@
 //   console.log('Marketplace is', marketplace);
 //   let elements;
 //   let $;
-  
+
 //   try{
 //     puppeteer
 //       .use(StealthPlugin())
@@ -77,7 +77,7 @@
 //     //TODO: Change to `process.env.${merchant.toUpper()}_USERNAME
 //     const username = process.env.POSHMARK_USERNAME;
 //     const password = process.env.POSHMARK_PASSWORD;
-    
+
 //     // let isLogged = false;
 
 //     //Login called for specific merchant
@@ -85,7 +85,7 @@
 //     await login(page, username, password);
 //     console.log('LOGGED IN');
 //     await search(page, 'thanos');
-    
+
 //     const pageData = await page.evaluate(() => {
 //       return {
 //         html: document.documentElement.innerHTML
@@ -98,7 +98,7 @@
 //       const itemDetails = $(item).find('.item__details');
 //       const name = $(itemDetails).find('a.tile__title');
 //       const imgSrc = $(item).find('.card img').data('src') || $(item).find('.card img').attr('src');
-      
+
 //       return {
 //         url: `https://poshmark.com${$(name).attr('href')}`,
 //         photoUrl: imgSrc,
@@ -111,12 +111,6 @@
 //     console.log('ELEMENTS======>', elements[0]);
 //     isLogged = await loggedInCheck(page);
 //   }
-
-    
-
-
-   
-
 
 //     // await browser.close();
 //   } catch(e){

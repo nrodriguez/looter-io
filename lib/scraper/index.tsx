@@ -1,5 +1,5 @@
-import PoshmarkScraper from "./poshmark-scraper";
+import PoshmarkScraper from './poshmark-scraper';
 
 export const Scrapers: any = {
-  PoshmarkScraper
+  PoshmarkScraper,
 };
