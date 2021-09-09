@@ -1,18 +1,16 @@
-import puppeteer from 'puppeteer';
+import { Page } from 'puppeteer';
+import axios from 'axios';
+import axiosThrottle from 'axios-request-throttle';
+
 import { Marketplace, TransformedItem } from '../marketplace';
 import { SearchParams } from '../search';
-
-type PoshmarkItem = {
-  title: string;
-  price: number;
-  marketingPrice: any;
-  thumbnailImages: string;
-  itemWebUrl: string;
-};
 
 export class Poshmark extends Marketplace {
   offset: number;
   limit: number;
+  page: Page;
+  url: string;
+  $: any;
 
   constructor() {
     super();
@@ -20,21 +18,38 @@ export class Poshmark extends Marketplace {
   }
 
   async search(searchParams: SearchParams): Promise<Array<TransformedItem>> {
-    const results = [];
+    //make api call to scraper
+    const options = {
+      method: 'GET',
+      url: `http://localhost:3000/api/scrape/poshmark`,
+      params: {
+        page: Number(searchParams.page),
+        query: searchParams.searchQuery,
+      }
+    };
+
+    try {
+      //Setup the throttle for once a second to avoid rate limit
+      axiosThrottle.use(axios, { requestsPerSecond: 1 });
+
+      const resp = await axios.request(options as any);
+
+      return this.transformData(resp.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Error', error.response, error);
+      //We hit a rate limiting error so just silently error
+      if (error.statusText === 'Too Many Requests') {
+        // eslint-disable-next-line no-console
+        console.log('Too many requests');
+      }
+      return [];
+    }
   }
 
-  transformData(rawResults: Array<any>): Array<TransformedItem> {
-    return rawResults;
-    // return rawResults.map((item: EbayItem) => {
-    //   return {
-    //     name: item.title,
-    //     photoUrl: item.thumbnailImages[0].imageUrl,
-    //     price: this.transformPrice(item.price.value),
-    //     originalPrice: '', //item.marketingPrice.originalPrice.value,
-    //     brand: '',
-    //     merchant: 'EBay',
-    //     url: item.itemWebUrl,
-    //   };
-    // });
+  transformData(results: Array<any>): Array<TransformedItem> {
+    // Method is inherited from parent class so even though we don't need it here
+    // we have to include it :/
+    return results;
   }
 }
