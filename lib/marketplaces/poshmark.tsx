@@ -24,8 +24,8 @@ export class Poshmark extends Marketplace {
       url: `http://localhost:3000/api/scrape/poshmark`,
       params: {
         page: Number(searchParams.page),
-        query: searchParams.searchQuery,
-      }
+        searchQuery: searchParams.searchQuery,
+      },
     };
 
     try {

@@ -1,5 +1,5 @@
 import { Page, Browser } from 'puppeteer';
-import puppeteer from 'puppeteer-extra'; 
+import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 export default class HeadlessBrowser {
@@ -10,41 +10,26 @@ export default class HeadlessBrowser {
   browser: Browser;
 
   async setBrowser(): Promise<void> {
-    puppeteer
-        .use(StealthPlugin());
+    puppeteer.use(StealthPlugin());
 
-      
-      const browser = await puppeteer.launch({
-        ignoreHTTPSErrors: true,
-        executablePath: '/usr/bin/google-chrome',
-        args: [
-          '--no-sandbox',
-          '--disable-extensions'
-          // '--disable-setuid-sandbox',
-          // '--disable-gpu',
-          // '--disable-infobars',
-          // '--window-position=0,0',
-          // '--ignore-certificate-errors',
-          // '--ignore-certificate-errors-spki-list',
-          // '--enable-automation',
-          // '--no-zygote',
-          // '--single-process',
-        ],
-      });
+    const browser = await puppeteer.launch({
+      ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ['--disable-extensions'],
+      executablePath: '/usr/bin/google-chrome',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+    });
 
-      this.browser = browser;
+    this.browser = browser;
   }
 
   getBrowser(): Browser {
-      return this.browser;
+    return this.browser;
   }
 
-  async getPage(): Promise<Page> {    
+  async getPage(): Promise<Page> {
     const page = await this.browser.newPage();
-
-    await page.setJavaScriptEnabled(true);
     await page.setDefaultNavigationTimeout(0);
-    
+
     return page;
   }
 }
