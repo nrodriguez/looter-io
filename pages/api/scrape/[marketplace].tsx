@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { Scrapers } from '../../../lib/scraper/index';
 import capitalize from 'lodash.capitalize';
 
@@ -10,17 +10,20 @@ export default async (
 
   const searchParams = {
     page,
-    searchQuery
+    searchQuery,
   };
-  try{
-    const marketplaceScraper = new Scrapers[`${capitalize(marketplace)}Scraper`]();
-    const scrapedResults = await marketplaceScraper.scrape(marketplace, searchParams);
+  try {
+    const marketplaceScraper = new Scrapers[
+      `${capitalize(marketplace)}Scraper`
+    ]();
+    const scrapedResults = await marketplaceScraper.scrape(searchParams);
 
     res.status(200).json(scrapedResults);
-  } catch(error){
-    if(error.message.includes('is not a constructor')){
-      res.status(400).json(`Marketplace type "${marketplace}" is not recognized`);
+  } catch (error) {
+    if (error.message.includes('is not a constructor')) {
+      res
+        .status(400)
+        .json(`Marketplace type "${marketplace}" is not recognized`);
     }
-    
   }
 };
