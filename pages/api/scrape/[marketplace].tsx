@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Scrapers } from '../../../lib/scraper/index';
+import { Scrapers } from '../../../lib/scrapers/index';
 import capitalize from 'lodash.capitalize';
 
 export default async (
@@ -13,9 +13,7 @@ export default async (
     searchQuery,
   };
   try {
-    const marketplaceScraper = new Scrapers[
-      `${capitalize(marketplace)}Scraper`
-    ]();
+    const marketplaceScraper = new Scrapers[`${capitalize(marketplace)}`]();
     const scrapedResults = await marketplaceScraper.scrape(searchParams);
 
     res.status(200).json(scrapedResults);
