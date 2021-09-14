@@ -12,8 +12,11 @@ export default async (
     page,
     searchQuery,
   };
+
+  const marketplaceName = marketplace.toString();
+
   try {
-    const marketplaceScraper = new Scrapers[`${capitalize(marketplace)}`]();
+    const marketplaceScraper = new Scrapers[`${capitalize(marketplaceName)}`]();
     const scrapedResults = await marketplaceScraper.scrape(searchParams);
 
     res.status(200).json(scrapedResults);
