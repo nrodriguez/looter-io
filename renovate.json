@@ -10,7 +10,7 @@
         "*"
       ],
       "matchUpdateTypes": [
-        "major",
+        "major"
       ],
       "groupName": "all major dependencies",
       "groupSlug": "all-major-patch"
