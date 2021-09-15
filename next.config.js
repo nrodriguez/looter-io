@@ -1,4 +1,5 @@
 module.exports = {
+  target: 'experimental-serverless-trace',
   images: {
     domains: [
       'u-mercari-images.mercdn.net',
