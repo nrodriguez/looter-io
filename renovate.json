@@ -1,5 +1,15 @@
 {
   "extends": [
     "config:base"
+  ],
+  "labels": ["dependencies"],
+  "dependencyDashboardAutoclose": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "matchUpdateTypes": ["minor,patch,pin"]
+    },
   ]
 }
