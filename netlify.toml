@@ -1,3 +1,4 @@
 [functions]
   # Specifies `esbuild` for functions bundling
   node_bundler = "esbuild"
+  external_node_modules = ["puppeteer-extra", "next", "sharp", "@ampproject/toolbox-optimizer"]
