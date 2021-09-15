@@ -1,4 +1,5 @@
 module.exports = {
+  generateBuildId: () => 'build',
   target: 'experimental-serverless-trace',
   images: {
     domains: [
