@@ -6,10 +6,25 @@
   "dependencyDashboardAutoclose": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"]
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "major",
+      ],
+      "groupName": "all major dependencies",
+      "groupSlug": "all-major-patch"
     },
     {
-      "matchUpdateTypes": ["minor,patch,pin"]
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
     }
   ]
 }
