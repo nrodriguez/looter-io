@@ -1,7 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Page, Browser } from 'puppeteer';
-// import puppeteer from 'puppeteer-extra';
-// import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-const puppeteer = require('puppeteer-extra');
+import puppeteer from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 export default class HeadlessBrowser {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -11,7 +12,7 @@ export default class HeadlessBrowser {
   browser: Browser;
 
   async setBrowser(): Promise<void> {
-    puppeteer.use(require('puppeteer-extra-plugin-stealth')());
+    puppeteer.use(StealthPlugin);
 
     const browser = await puppeteer.launch({
       ignoreHTTPSErrors: true,
