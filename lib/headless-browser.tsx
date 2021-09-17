@@ -3,6 +3,7 @@
 import { Page, Browser } from 'puppeteer';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import chromium from 'chrome-aws-lambda';
 
 export default class HeadlessBrowser {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -12,14 +13,25 @@ export default class HeadlessBrowser {
   browser: Browser;
 
   async setBrowser(): Promise<void> {
+    let browser;
+
     puppeteer.use(StealthPlugin);
 
-    const browser = await puppeteer.launch({
-      ignoreHTTPSErrors: true,
-      ignoreDefaultArgs: ['--disable-extensions'],
-      executablePath: '/usr/bin/google-chrome',
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
-    });
+    if (process.env.NETLIFY) {
+      const executablePath = await chromium.executablePath;
+      browser = await puppeteer.launch({
+        args: chromium.args,
+        executablePath: executablePath,
+        headless: chromium.headless,
+      });
+    } else {
+      browser = await puppeteer.launch({
+        ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extensions'],
+        executablePath: '/usr/bin/google-chrome',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+      });
+    }
 
     this.browser = browser;
   }
