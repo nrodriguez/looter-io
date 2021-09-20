@@ -4,7 +4,7 @@
     "dev": "next dev -H ::",
     "dev:debug:ebay": "DEBUG=ebay:* dev ",
     "dev:headless": "xvfb-run --auto-servernum yarn dev",
-    "build": "next build",
+    "build": "npm ls react && yarn why react && next build",
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
