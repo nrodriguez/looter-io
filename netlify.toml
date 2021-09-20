@@ -8,3 +8,9 @@
     "@ampproject/toolbox-optimizer",
     "chrome-aws-lambda"
   ]
+[[plugins]]
+  package= "netlify-plugin-chromium"
+    [plugins.inputs]
+      packageManager = "yarn"
+      setChromePathInEnv = "true"
+      failBuildOnError = "true"
