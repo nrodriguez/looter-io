@@ -47,13 +47,13 @@ function Home({
   };
 
   return (
-    <div className="container h-screen">
+    <div className="container w-screen h-screen" id="scrollableTarget">
       <Head>
         <title>LooterIO Search Results</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="justify-center w-screen">
+      <div className="justify-center">
         <Header />
         <SearchBar
           searchQuery={searchQuery}
