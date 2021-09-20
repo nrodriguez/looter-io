@@ -1,7 +1,7 @@
 import HeadlessBrowser from '../headless-browser';
 import { Mixin } from 'ts-mixer';
 import { scrapedResult, Scraper } from '../scraper';
-import { Page } from 'puppeteer-core';
+import { Page } from 'puppeteer';
 import * as cheerio from 'cheerio';
 import { SearchParams } from '../search';
 

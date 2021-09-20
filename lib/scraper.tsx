@@ -1,4 +1,4 @@
-import { Page } from 'puppeteer-core';
+import { Page } from 'puppeteer';
 import { SearchParams } from './search';
 
 export type scrapedResult = {

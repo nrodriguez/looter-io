@@ -1,4 +1,4 @@
-import { Page } from 'puppeteer-core';
+import { Page } from 'puppeteer';
 import axios from 'axios';
 import axiosThrottle from 'axios-request-throttle';
 
