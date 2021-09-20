@@ -6,7 +6,6 @@
     "next", 
     "sharp", 
     "@ampproject/toolbox-optimizer",
-    "chrome-aws-lambda"
   ]
 [[plugins]]
   package= "netlify-plugin-chromium"
