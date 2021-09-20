@@ -30,7 +30,6 @@
     "axios": "0.21.2",
     "axios-request-throttle": "1.0.0",
     "cheerio": "1.0.0-rc.10",
-    "chrome-aws-lambda": "^10.1.0",
     "currency.js": "2.0.4",
     "lodash.capitalize": "4.2.1",
     "next": "11.1.2",
