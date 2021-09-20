@@ -1,3 +1,30 @@
 {
-  "extends": ["config:base"]
+  "extends": [
+    "config:base"
+  ],
+  "labels": ["dependencies"],
+  "dependencyDashboardAutoclose": true,
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "all major dependencies",
+      "groupSlug": "all-major-patch"
+    },
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
+    }
+  ]
 }

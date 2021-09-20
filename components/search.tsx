@@ -28,14 +28,14 @@ const SearchBar: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex max-w-xs pl-2 bg-white border-2 rounded-full max-h-10">
+    <div className="flex max-w-lg min-w-0 pl-2 bg-white border-2 rounded-full max-h-10">
       <SearchIcon
         className="h-8 text-gray-700"
         data-value-search-input={searchQuery}
         onClick={(e) => handleClick(e)}
       />
       <input
-        className="px-5 pr-16 text-sm text-gray-700 bg-white focus:outline-none"
+        className="w-11/12 px-5 pr-16 text-sm text-gray-700 bg-white focus:outline-none"
         type="text"
         name="search"
         placeholder="Search"

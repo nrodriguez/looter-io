@@ -20,10 +20,20 @@ function EmptyResults(): JSX.Element {
   return <section>No Results</section>;
 }
 
+function dupeCheck(
+  initialResults: Array<TransformedItem>,
+  newResults: Array<TransformedItem>
+): boolean {
+  const originalFirstItem = initialResults[0];
+  const newResultsFirstItem = newResults[0];
+  return originalFirstItem == newResultsFirstItem;
+}
+
 function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
   const [searchResults, setSearchResults] = useState(initialSearchResults);
   const [page, setPage] = useState(1);
   const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const limit = defaultLimit(); //Hardcoded here till I can find a better place
 
@@ -38,10 +48,18 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
     );
     const newSearchResults = await res.json();
 
-    setSearchResults((searchResults) => [
-      ...searchResults,
-      ...newSearchResults,
-    ]);
+    //We check for dupe to verify if there are no new results
+    //If there are dupes then we're just returning the same set of results
+    const isDupe = dupeCheck(searchResults, newSearchResults);
+
+    if (isDupe) {
+      setHasMore(false);
+    } else {
+      setSearchResults((searchResults) => [
+        ...searchResults,
+        ...newSearchResults,
+      ]);
+    }
   };
 
   if (initialSearchResults[0] !== searchResults[0]) {
@@ -56,9 +74,10 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
       <InfiniteScroll
         dataLength={searchResults.length}
         next={getMoreResults}
-        hasMore={true}
+        hasMore={hasMore}
         loader={<h4> Loading...</h4>}
         endMessage={<h4>Nothing more to show</h4>}
+        hasChildren={true}
       >
         <div className="grid grid-cols-2 gap-10 text-center text sm:gap-20 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {searchResults.map((item: TransformedItem, index) => (
@@ -67,15 +86,15 @@ function HydratedResults({ initialSearchResults, searchQuery }): JSX.Element {
               target="_blank"
               href={item.url}
               rel="noreferrer"
-              className="item-container"
+              className="max-w-full item-container"
             >
               <div className="item">
                 <Image
                   src={item.photoUrl}
-                  // layout="fill"
                   objectFit="contain"
                   height="200"
                   width="200"
+                  layout="responsive"
                 />
                 <p>{item.name}</p>
                 <p>{item.brand}</p>
