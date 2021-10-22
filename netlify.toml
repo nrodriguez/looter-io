@@ -7,7 +7,9 @@
     "@ampproject/toolbox-optimizer",
   ]
 [[plugins]]
-  package= "@netlify/plugin-nextjs",
+  package= "@netlify/plugin-nextjs"
+
+[[plugins]]
   package= "netlify-plugin-chromium"
     [plugins.inputs]
       packageManager = "yarn"
