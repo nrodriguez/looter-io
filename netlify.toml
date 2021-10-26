@@ -1,0 +1,17 @@
+[build]
+  publish = ".next"
+[functions]
+  external_node_modules = [
+    "puppeteer-extra", 
+    "sharp", 
+    "@ampproject/toolbox-optimizer",
+  ]
+[[plugins]]
+  package= "@netlify/plugin-nextjs"
+  
+[[plugins]]
+  package= "netlify-plugin-chromium"
+    [plugins.inputs]
+      packageManager = "yarn"
+      setChromePathInEnv = "true"
+      failBuildOnError = "true"

@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev -H ::",
     "dev:debug:ebay": "DEBUG=ebay:* dev ",
-    "build": "next build",
+    "dev:headless": "xvfb-run --auto-servernum yarn dev",
+    "build": "npm ls react && yarn why react && next build",
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
@@ -26,17 +27,22 @@
   "dependencies": {
     "@hendt/ebay-api": "3.3.3",
     "@heroicons/react": "1.0.4",
-    "axios": "0.21.4",
+    "axios": "0.21.2",
     "axios-request-throttle": "1.0.0",
-    "blk-design-system-react": "1.2.0",
+    "cheerio": "1.0.0-rc.10",
     "currency.js": "2.0.4",
-    "next": "latest",
+    "lodash.capitalize": "4.2.1",
+    "next": "11.1.2",
+    "puppeteer-extra": "3.1.18",
+    "puppeteer-extra-plugin-stealth": "2.7.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-infinite-scroll-component": "6.1.0",
-    "swr": "1.0.1"
+    "swr": "1.0.1",
+    "ts-mixer": "6.0.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "4.0.0-beta.2",
     "@tailwindcss/jit": "0.1.18",
     "@testing-library/react": "11.2.7",
     "@types/jest": "26.0.24",
@@ -57,6 +63,7 @@
     "lint-staged": "10.5.4",
     "postcss": "8.3.6",
     "prettier": "2.3.2",
+    "puppeteer": "10.2.0",
     "tailwindcss": "2.2.9",
     "typescript": "4.4.2"
   }
