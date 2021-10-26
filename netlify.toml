@@ -8,6 +8,7 @@
   ]
 [[plugins]]
   package= "@netlify/plugin-nextjs"
+  
 [[plugins]]
   package= "netlify-plugin-chromium"
     [plugins.inputs]
